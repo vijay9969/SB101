@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import day2.Q2.Student;
 
@@ -19,17 +21,24 @@ public class Main {
 	
 
 	
-	public static <String, Student extends Comparable<Student>> HashMap<String, Student> sortByValue(HashMap<String, Student> hm)
+	public static  HashMap<String, Student> sortByValue(Map<String, Student> hm)
     {
-        // Create a list from elements of HashMap
-        List<Map.Entry<String, Student> > list = new LinkedList<Map.Entry<String, Student> >(hm.entrySet());
-         
-        // put data from sorted list to hashmap
-        HashMap<String, Student> temp = new LinkedHashMap<String, Student>();
-        for (Map.Entry<String, Student> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
+        Comparator<Map.Entry<String, Student>> 	stud = (e1,e2)->{
+        	return e1.getValue().getMarks()>e2.getValue().getMarks()?1:-1;
+        };
+        
+        Set<Map.Entry<String, Student>> set = hm.entrySet();
+        
+        Set<Map.Entry<String, Student>> sortedset = new TreeSet<>(stud); 
+        sortedset.addAll(set);
+        
+        LinkedHashMap<String, Student> sortedmap = new LinkedHashMap<>();
+        
+        for(Map.Entry<String, Student> s:sortedset) {
+        	sortedmap.put(s.getKey(), s.getValue());
         }
-        return temp;
+        
+        return sortedmap;
     }
 
 
